@@ -3,5 +3,6 @@ tensorflow==2.12
 keras
 opencv-python
 pillow
+python-multipart
 fastapi
 uvicorn
