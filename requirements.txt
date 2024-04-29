@@ -1,3 +1,6 @@
 scikit-learn
+tensorflow==2.12
+keras
+opencv-python
 fastapi
 uvicorn

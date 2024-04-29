@@ -1,0 +1,2 @@
+0 VALID cin 
+1 non valid cin
