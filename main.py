@@ -2,8 +2,8 @@ import uvicorn
 import os
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import FileResponse
-#from keras.models import load_model  # TensorFlow is required for Keras to work
-#import cv2  # Install opencv-python
+from keras.models import load_model  # TensorFlow is required for Keras to work
+import cv2  # Install opencv-python
 import numpy as np
 from PIL import Image
 
