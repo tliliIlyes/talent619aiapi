@@ -11,12 +11,11 @@ from PIL import Image
 np.set_printoptions(suppress=True)
 
 # Load the model
-model = load_model("./Models/finalmodel.h5", compile=False)
+model = load_model("./Models/kerasrefinedfinal.h5", compile=False)
 
 # Load the labels
-class_names = open("./Models/labelskeras.txt", "r").readlines()
+class_names = open("./Models/refinedkeraslabels.txt", "r").readlines()
 def make_square(im, min_size=224, fill_color=(255, 255, 255)):
-    print(im)
     x, y = im.size
     size = max(min_size, x, y)
     new_im = Image.new('RGB', (size, size), fill_color)
@@ -39,30 +38,29 @@ async def root(projectid: str ="you left me empty" , duration: int = 7 ):
 def upload(file: UploadFile = File()):
     try:        
         im = Image.open(file.file)
-        print()
-        
         # resize and save Image
         im = Image.fromarray(np.asarray(make_square(im)))
-        #im.save('out.png')
-        
+        im.save('out.png')
         # convert Image to array
-        #arr = np.asarray(im)
+        im = np.asarray(im)
         im = cv2.resize(im, (224, 224), interpolation=cv2.INTER_AREA)
+        imtosave=Image.fromarray(im)
+        imtosave.save('out.png')
 
         # Make the image a numpy array and reshape it to the models input shape.
         im = np.asarray(im, dtype=np.float32).reshape(1, 224, 224, 3)
+        im = (im / 127.5) - 1
         prediction = model.predict(im)
         index = np.argmax(prediction)
         class_name = class_names[index]
         confidence_score = prediction[0][index]
         return{"Class:":class_name[2:],"Confidence Score:":str(np.round(confidence_score * 100))[:-2]}
     
-    except Exception:
+    except Exception as error:
+        print(error)
         raise HTTPException(status_code=500, detail='Something went wrong')
-    finally:
-        file.file.close()
-        im.close()
+
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=int(os.environ.get('PORT', 8000)), log_level="info")
+    uvicorn.run("main:app", host="0.0.0.0", port=int(os.environ.get('PORT', 8080)), log_level="info")
