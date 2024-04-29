@@ -8,13 +8,13 @@ import numpy as np
 from PIL import Image
 
 # Disable scientific notation for clarity
-#np.set_printoptions(suppress=True)
+np.set_printoptions(suppress=True)
 
 # Load the model
-#model = load_model("./Models/finalmodel.h5", compile=False)
+model = load_model("./Models/finalmodel.h5", compile=False)
 
 # Load the labels
-#class_names = open("./Models/labelskeras.txt", "r").readlines()
+class_names = open("./Models/labelskeras.txt", "r").readlines()
 def make_square(im, min_size=224, fill_color=(255, 255, 255)):
     print(im)
     x, y = im.size
