@@ -6,6 +6,13 @@ from keras.models import load_model  # TensorFlow is required for Keras to work
 import cv2  # Install opencv-python
 import numpy as np
 from PIL import Image
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+
+
+
+
 
 # Disable scientific notation for clarity
 np.set_printoptions(suppress=True)
@@ -23,6 +30,22 @@ def make_square(im, min_size=224, fill_color=(255, 255, 255)):
     return new_im
 
 app = FastAPI()
+origins = [
+    "http://talent619.com",
+    "https://talent619.com",
+    "https://www.talent619.com",
+    
+]
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.get("/skillestim")
 async def root(discription: str ="you left me empty" ):
