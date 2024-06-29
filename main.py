@@ -34,6 +34,7 @@ origins = [
     "http://talent619.com",
     "https://talent619.com",
     "https://www.talent619.com",
+    "http://localhost:5173/",
     
 ]
 
